@@ -1,0 +1,22 @@
+version: '3'
+services:
+  proget-postgres:
+    image: postgres:9.5
+    container_name: proget-postgres
+    volumes:
+      - ./localtime:/etc/localtime:ro
+      - ~/proget/data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  proget:
+    image: inedo/proget:latest
+    container_name: proget
+    volumes:
+      - ./localtime:/etc/localtime:ro
+      - ~/proget/packages:/var/proget/packages
+      - ~/proget/extensions:/var/proget/extensions
+    expose:
+      - "80"
+    ports:
+      - "8624:80"
+    restart: unless-stopped
